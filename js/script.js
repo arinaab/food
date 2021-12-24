@@ -90,4 +90,47 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
     setClock('.timer', deadline);
+
+    //modal
+
+    const btnsTrigger = document.querySelectorAll('[data-modal]'),
+          modal = document.querySelector('.modal'),
+          modalClose = document.querySelector('[data-close]');
+
+    function showModal(trigger, element) {
+        trigger.forEach(item => { //на каждую кнопку навешали событие
+            item.addEventListener('click', () => { 
+                element.classList.add('show');
+                element.classList.remove('hide');
+                document.body.style.overflow = 'hidden'; //убираем скролл
+            });
+        });
+    }
+    showModal(btnsTrigger, modal);
+    
+    function hideModal(trigger) {
+        trigger.addEventListener('click', () => {
+            closeElement(modal);
+        });
+
+        modal.addEventListener('click', (event) => {
+            const target = event.target;
+            if (target && target === modal) {
+                closeElement(modal);
+            }
+        });
+
+        document.addEventListener("keydown", (event) => {
+            if (event.code === 'Escape' && modal.classList.contains('show')) {
+                closeElement(modal);
+            }
+        });
+    }
+    hideModal(modalClose);
+
+    function closeElement(element) {
+        element.classList.remove('show');
+        element.classList.add('hide');
+        document.body.style.overflow = ''; //возвращаем скролл, оставляем ''
+    }
 });
