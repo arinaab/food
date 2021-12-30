@@ -154,19 +154,27 @@ document.addEventListener('DOMContentLoaded', () => {
     const menu = document.querySelectorAll('.menu__item');
 
     class MenuItem {
-        constructor(src, alt, subtitle, descr, total, parentSelector) {
+        constructor(src, alt, subtitle, descr, total, parentSelector, ...classes) {
             this.src = src;
             this.alt = alt;
             this.subtitle = subtitle;
             this.descr = descr;
             this.total = total;
+            this.classes = classes;
             this.parent = document.querySelector(parentSelector);
         }
 
         render() {
             const element = document.createElement('div');
+
+            if (this.classes.length === 0) {
+                this.element = 'menu__item';
+                element.classList.add(this.element);
+            } else {
+                this.classes.forEach(item => element.classList.add(item));
+            }
+
             element.innerHTML = `
-            <div class="menu__item">
                 <img src=${this.src} alt=${this.alt}>
                 <h3 class="menu__item-subtitle">${this.subtitle}</h3>
                 <div class="menu__item-descr">${this.descr}</div>
@@ -175,7 +183,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     <div class="menu__item-cost">Цена:</div>
                     <div class="menu__item-total"><span>${this.total}</span> грн/день</div>
                 </div>
-            </div>
             `;
             this.parent.append(element);
         }
@@ -186,7 +193,7 @@ document.addEventListener('DOMContentLoaded', () => {
         'Меню "Фитнес"', 
         'Меню "Фитнес" - это новый подход к приготовлению блюд: больше свежих овощей и фруктов. Продукт активных и здоровых людей. Это абсолютно новый продукт с оптимальной ценой и высоким качеством!', 
         229, 
-        '.menu .container'
+        '.menu .container',
         ).render();
     
     new MenuItem(
@@ -195,7 +202,7 @@ document.addEventListener('DOMContentLoaded', () => {
         'Меню “Премиум”', 
         'В меню “Премиум” мы используем не только красивый дизайн упаковки, но и качественное исполнение блюд. Красная рыба, морепродукты, фрукты - ресторанное меню без похода в ресторан!', 
         550, 
-        '.menu .container'
+        '.menu .container',
         ).render();
 
     new MenuItem(
@@ -204,6 +211,6 @@ document.addEventListener('DOMContentLoaded', () => {
         'Меню "Постное"', 
         'Меню “Постное” - это тщательный подбор ингредиентов: полное отсутствие продуктов животного происхождения, молоко из миндаля, овса, кокоса или гречки, правильное количество белков за счет тофу и импортных вегетарианских стейков. ', 
         430, 
-        '.menu .container'
+        '.menu .container',
         ).render();
 });
