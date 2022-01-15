@@ -286,4 +286,57 @@ document.addEventListener('DOMContentLoaded', () => {
     /* fetch('http://localhost:3000/menu')
         .then(data => data.json())
         .then(res => console.log(res)); */
+
+    //slider
+
+    const next = document.querySelector('.offer__slider-next'),
+          prev = document.querySelector('.offer__slider-prev'),
+          current = document.querySelector('#current'),
+          total = document.querySelector('#total'),
+          slides = document.querySelectorAll('.offer__slide'),
+          wrapper = document.querySelector('.offer__slider-wrapper');
+
+    let slideIndex = 1;
+
+    showSlide(slideIndex);
+
+    if (slides.length < 10) {
+        total.textContent = `0${slides.length}`;
+    } else {
+        total.textContent = slides.length;
+    }
+    function showSlide(n) {
+        if (n > slides.length) { 
+            slideIndex = 1;
+        }
+
+        if (n < 1) {
+            slideIndex = slides.length;
+        }
+
+        slides.forEach(item => { //скрываем все слайды
+            item.classList.add('hide');
+
+        });
+
+        slides[slideIndex - 1].classList.add('show');
+        slides[slideIndex - 1].classList.remove('hide');
+
+        if (slides.length < 10) {
+            current.textContent = `0${slideIndex}`;
+        } else {
+            current.textContent = slideIndex;
+        }
+    }
+    function plusSlides(n) {
+        showSlide(slideIndex += n);
+    }
+
+    next.addEventListener('click', () => {
+        plusSlides(+1);
+    });
+
+    prev.addEventListener('click', () => {
+        plusSlides(-1);
+    });
 });
