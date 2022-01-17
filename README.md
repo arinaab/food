@@ -1,2 +1,2 @@
-my 3rd stidy project, more JS: tabs, timer, modals, slider
+my 3rd study project, more JS: tabs, timer, modals, slider
 (project in progress)
