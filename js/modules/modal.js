@@ -1,21 +1,35 @@
-function modal() {
-    //modal
+function closeModal(modalSelector) {
+    const modal = document.querySelector(modalSelector);
 
-    const btnsTrigger = document.querySelectorAll('[data-modal]'),
-          modal = document.querySelector('.modal');
+    modal.classList.remove('show');
+    modal.classList.add('hide');
+    document.body.style.overflow = ''; //возвращаем скролл, оставляем ''
+}
 
+function openModal(modalSelector, modalTimerID) {
+    const modal = document.querySelector(modalSelector);
 
-    function openModal() {
-        modal.classList.add('show');
-        modal.classList.remove('hide');
-        document.body.style.overflow = 'hidden'; //убираем скролл
+    modal.classList.add('show');
+    modal.classList.remove('hide');
+    document.body.style.overflow = 'hidden'; //убираем скролл
+
+    console.log(modalTimerID);
+    if (modalTimerID) {
         clearInterval(modalTimerID);
     }
+}
+
+function modal(triggerSelector, modalSelector, modalTimerID) {
+    //modal
+
+    const btnsTrigger = document.querySelectorAll(triggerSelector),
+          modal = document.querySelector(modalSelector);
+
 
     function showModal(trigger) {
         trigger.forEach(item => { //на каждую кнопку навешали событие
             item.addEventListener('click', () => { 
-                openModal();
+                openModal(modalSelector, modalTimerID);
             });
         });
     }
@@ -25,32 +39,26 @@ function modal() {
     modal.addEventListener('click', (event) => {
         const target = event.target;
         if (target && target === modal || target.getAttribute('data-close') == '') {
-            closeElement(modal);
+            closeModal(modalSelector);
         }
     });
 
     document.addEventListener("keydown", (event) => {
         if (event.code === 'Escape' && modal.classList.contains('show')) {
-            closeElement(modal);
+            closeModal(modalSelector);
         }
     });
     
 
-    function closeElement(element) {
-        element.classList.remove('show');
-        element.classList.add('hide');
-        document.body.style.overflow = ''; //возвращаем скролл, оставляем ''
-    }
-
-    const modalTimerID = setTimeout(openModal, 25000);
-
     function showModalByScroll() {
         if (window.pageYOffset + document.documentElement.clientHeight >= document.documentElement.scrollHeight) {
-            openModal();
+            openModal(modalSelector, modalTimerID);
             window.removeEventListener('scroll', showModalByScroll);
         }
     }
     window.addEventListener('scroll', showModalByScroll);
 }
 
-module.exports = modal;
+export default modal;
+export {closeModal};
+export {openModal};
